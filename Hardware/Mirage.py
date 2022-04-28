@@ -8,20 +8,19 @@ class MirageBasic(ModbusClient):
     def __init__(self, host=None, port=502, unit_id=None, timeout=None, debug=None, auto_open=True, auto_close=False):
         super().__init__(host, port, unit_id, timeout, debug, auto_open, auto_close)
 
+
     def __del__(self):
         self.close()
 
-
-    def _timeTrack(func):
-        def wrapper(*args, **kwargs):
-            startTime = time.time()
-            result = func(*args, **kwargs)
-            endTime = time.time()
-            deltaTime = round(endTime - startTime, 4)
-            print(f"Функция выполнялась {deltaTime}")
-            return result
-
-        return wrapper
+    # def _timeTrack(func):
+    #     def wrapper(*args, **kwargs):
+    #         startTime = time.time()
+    #         result = func(*args, **kwargs)
+    #         endTime = time.time()
+    #         deltaTime = round(endTime - startTime, 4)
+    #         print(f"Функция выполнялась {deltaTime}")
+    #         return result
+    #     return wrapper
 
 
 class MirageNAI(MirageBasic):
@@ -67,8 +66,20 @@ class MirageNDO(MirageBasic):
         val = 0
         if value == True:
             val = 1
-        self.write_single_register(1000+channel, val)
+        self.write_single_register(1000 + channel, val)
 
+
+class MirageNAODI(MirageBasic):
+
+    def getAllDI(self):
+        raw = self.read_holding_registers(16, 8)
+        result = []
+        for i in raw:
+            if i == 0:
+                result.append(False)
+            else:
+                result.append(True)
+        return result
 
 
 if __name__ == "__main__":
@@ -76,19 +87,16 @@ if __name__ == "__main__":
     NDI = MirageNDI(host="192.168.8.195")
     NPT = MirageNPT(host="192.168.8.193")
     NDO = MirageNDO(host="192.168.8.194")
+    NAO = MirageNAODI(host="192.168.8.191")
 
     print(NAI.getAll())
     print(NDI.getAll())
     print(NPT.getAll())
     print(NDO.getAll())
+    print(NAO.getAllDI())
 
-    # for i in range(1):
-    #
+    # for i in range(100):
     #     for j in range(24):
     #         NDO.setChannel(j, True)
-    #         # time.sleep(0.01)
-    #
     #     for j in range(24):
     #         NDO.setChannel(j, False)
-    #         # time.sleep(0.01)
-
