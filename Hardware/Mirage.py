@@ -4,65 +4,91 @@ import time
 
 # 191 - NAO+NDI, 192 - NAI, 193 - NPT, 194 - NDO, 195 - NDI
 
-
-
-# c = ModbusClient(host="192.168.8.220", port=502, unit_id=1, auto_open=True, auto_close=False)
-# regs = c.read_holding_registers(0, 10)
-# lastval = 0
-# lasttime = 0
-# newtime = 0
-# while True:
-#     regs = c.read_holding_registers(0, 1)
-#     T = ((regs[0]/1000 - 4)/16)*180
-#     newtime = time.time()
-#     if lasttime == 0:
-#         lasttime = newtime
-#     if T != lastval:
-#         lastval = T
-#         print(newtime - lasttime, T)
-#         lasttime = newtime
-
-
-class MirageNAI(ModbusClient):
-    def __init__(self, host=None, port=502, unit_id=None, timeout=None, debug=None, auto_open=True, auto_close=True):
+class MirageBasic(ModbusClient):
+    def __init__(self, host=None, port=502, unit_id=None, timeout=None, debug=None, auto_open=True, auto_close=False):
         super().__init__(host, port, unit_id, timeout, debug, auto_open, auto_close)
+
+    def __del__(self):
+        self.close()
+
 
     def _timeTrack(func):
         def wrapper(*args, **kwargs):
             startTime = time.time()
             result = func(*args, **kwargs)
             endTime = time.time()
-            deltaTime = round(endTime-startTime, 4)
+            deltaTime = round(endTime - startTime, 4)
             print(f"Функция выполнялась {deltaTime}")
             return result
+
         return wrapper
 
-    # @_timeTrack
+
+class MirageNAI(MirageBasic):
+
     def getValue(self, channel):
         return self.read_holding_registers(channel, 1)[0]
 
-    # @_timeTrack
     def getAll(self):
         return self.read_holding_registers(0, 16)
-    
 
-    def __del__(self):
-        self.close()
 
+class MirageNDI(MirageBasic):
+
+    def getAll(self):
+        raw = self.read_holding_registers(1000, 24)
+        result = []
+        for i in raw:
+            if i == 0:
+                result.append(False)
+            else:
+                result.append(True)
+        return result
+
+
+class MirageNPT(MirageBasic):
+    def getAll(self):
+        return self.read_holding_registers(0, 8)
+
+
+class MirageNDO(MirageBasic):
+
+    def getAll(self):
+        raw = self.read_holding_registers(1000, 24)
+        result = []
+        for i in raw:
+            if i == 0:
+                result.append(False)
+            else:
+                result.append(True)
+        return result
+
+    def setChannel(self, channel, value):
+        val = 0
+        if value == True:
+            val = 1
+        self.write_single_register(1000+channel, val)
 
 
 
 if __name__ == "__main__":
-    c = MirageNAI(host="192.168.8.192")
+    NAI = MirageNAI(host="192.168.8.192")
+    NDI = MirageNDI(host="192.168.8.195")
+    NPT = MirageNPT(host="192.168.8.193")
+    NDO = MirageNDO(host="192.168.8.194")
 
-    def multichannel():
-        for i in range(16):
-            print(c.getValue(i))
+    print(NAI.getAll())
+    print(NDI.getAll())
+    print(NPT.getAll())
+    print(NDO.getAll())
 
+    # for i in range(1):
+    #
+    #     for j in range(24):
+    #         NDO.setChannel(j, True)
+    #         # time.sleep(0.01)
+    #
+    #     for j in range(24):
+    #         NDO.setChannel(j, False)
+    #         # time.sleep(0.01)
 
-
-    # print(c.getValue(2))
-
-    print(c.getAll())
-
-        
