@@ -8,7 +8,7 @@ class Window(QMainWindow):
         super().__init__()
         self.setWindowTitle("vPLC")
         self.setMinimumSize(800, 600)
-        # self.setWindowIcon(QIcon('Graphics/ico.png'))
+        self.setWindowIcon(QIcon('Graphics/ico.png'))
         self.statusBar()
 
 
