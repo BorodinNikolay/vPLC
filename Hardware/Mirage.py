@@ -105,33 +105,30 @@ class MirageNAODI(MirageBasic):
         return self.read_holding_registers(channel, 1)[0]
 
     def setValueAO(self, channel, value):
-        # print(f"Значение канала {channel} установлено на {value / 1000} мА. на ИТП должно быть {(value - 4000) / 160}")
         self.write_single_register(channel, value)
 
 
 class MirageNAILink:
-    def __init__(self, module: MirageNAI = None, Tag0: Tag = None, Tag1: Tag = None, Tag2: Tag = None, Tag3: Tag = None,
+    def __init__(self, Module: MirageNAI = None, Tag0: Tag = None, Tag1: Tag = None, Tag2: Tag = None, Tag3: Tag = None,
                  Tag4: Tag = None, Tag5: Tag = None, Tag6: Tag = None,
                  Tag7: Tag = None, Tag8: Tag = None, Tag9: Tag = None, Tag10: Tag = None, Tag11: Tag = None,
                  Tag12: Tag = None, Tag13: Tag = None, Tag14: Tag = None,
                  Tag15: Tag = None):
-        self.module = module
+        self.Module = Module
         self.Tags = [Tag0, Tag1, Tag2, Tag3, Tag4, Tag5, Tag6, Tag7, Tag8, Tag9, Tag10, Tag11, Tag12, Tag13, Tag14,
                      Tag15]
 
     def syncOnce(self):
-        array = self.module.getAll()
+        array = self.Module.getAll()
         for _ in self.Tags:
             if _:
                 _.setValue(array[self.Tags.index(_)])
-                print(f"Tag{self.Tags.index(_)} значение {array[self.Tags.index(_)]}")
+                # print(f"Tag{self.Tags.index(_)} значение {array[self.Tags.index(_)]}")
 
     def syncLoop(self):
         while True:
             self.syncOnce()
-
-    def __setattr__(self, key, value):
-        print(key, value)
+            time.sleep(0.1)
 
 
 if __name__ == "__main__":
@@ -142,7 +139,7 @@ if __name__ == "__main__":
     NAO = MirageNAODI("192.168.8.191")
 
     Peremennaya = Tag()
-    a = MirageNAILink(module=NAI, Tag2=Peremennaya)
+    a = MirageNAILink(Module=NAI, Tag2=Peremennaya)
     # a.syncOnce()
     # print(NAI.getAll())
     # print(NDI.getAll())
