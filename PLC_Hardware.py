@@ -8,5 +8,3 @@ DIN_rail_1 = {
     "NAO": MirageNAODI("192.168.8.191")
 }
 
-if __name__ == "__main__":
-    print(DIN_rail_1["NAI"].getAll())
