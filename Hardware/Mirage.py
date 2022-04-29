@@ -110,7 +110,7 @@ class MirageNAODI(MirageBasic):
 
 
 class MirageNAILink:
-    def __init__(self, module: MirageNAI, Tag0: Tag = None, Tag1: Tag = None, Tag2: Tag = None, Tag3: Tag = None,
+    def __init__(self, module: MirageNAI = None, Tag0: Tag = None, Tag1: Tag = None, Tag2: Tag = None, Tag3: Tag = None,
                  Tag4: Tag = None, Tag5: Tag = None, Tag6: Tag = None,
                  Tag7: Tag = None, Tag8: Tag = None, Tag9: Tag = None, Tag10: Tag = None, Tag11: Tag = None,
                  Tag12: Tag = None, Tag13: Tag = None, Tag14: Tag = None,
@@ -141,8 +141,8 @@ if __name__ == "__main__":
     NDO = MirageNDO("192.168.8.194")
     NAO = MirageNAODI("192.168.8.191")
 
-    # Peremennaya = Tag()
-    # a = MirageNAILink(module=NAI, Tag2=Peremennaya)
+    Peremennaya = Tag()
+    a = MirageNAILink(module=NAI, Tag2=Peremennaya)
     # a.syncOnce()
     # print(NAI.getAll())
     # print(NDI.getAll())
