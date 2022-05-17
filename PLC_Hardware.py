@@ -1,6 +1,6 @@
 from Hardware.Mirage import *
 
-DIN_rail_1 = {
+DIN_rail = {
     "NAI": MirageNAI("192.168.8.192"),
     "NDI": MirageNDI("192.168.8.195"),
     "NPT": MirageNPT("192.168.8.193"),

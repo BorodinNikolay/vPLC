@@ -1,23 +1,65 @@
 from pyModbusTCP.client import ModbusClient
 from Lib.vPLC_lib import Tag
+from PyQt6.QtCore import QThread, pyqtSignal
 import time
 
 
-class MirageBasic(ModbusClient):
-    def __init__(self, host=None, port=502, unit_id=None, timeout=None, debug=None, auto_open=True, auto_close=False):
-        super().__init__(host, port, unit_id, timeout, debug, auto_open, auto_close)
+class MirageBasic(QThread, ModbusClient):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.port(502)
+        self.auto_open(True)
+        self.auto_close(False)
 
     def __del__(self):
         self.close()
 
 
 class MirageNAI(MirageBasic):
+    signal = pyqtSignal()
+    def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
+                 Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
+                 Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
+                 Ch15: Tag = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15]
+        self._ChPrevious = None
+
+    def getClassVariableName(self):
+        for i, j in globals().items():
+            if j is self:
+                return i
 
     def getValue(self, channel):
         return self.read_holding_registers(channel, 1)[0]
 
     def getAll(self):
-        return self.read_holding_registers(0, 16)
+        _result = self.read_holding_registers(0, 16)
+        _changes = []
+        if self._ChPrevious != _result:
+            if not self._ChPrevious:
+                for i, v in enumerate(_result):
+                    if 50 < v < 25000:
+                        _changes.append((i, v))
+            else:
+                for i, v in enumerate(_result):
+                    if self._ChPrevious[i] != v and 50 < v < 25000 and abs(self._ChPrevious[i] - v) > 5:
+                        _changes.append((i, v))
+
+            for k in _changes:
+                # print(k)
+                # print(f"Канал {k[0]} новое значение: {k[1]/1000} мА")
+                if self._Ch[k[0]]:
+                    self._Ch[k[0]].setValue(k[1])
+                    self.signal.emit()
+
+            self._ChPrevious = _result
+            return _result
+
+    def run(self):
+        print("Run")
+        while True:
+            self.getAll()
 
 
 class MirageNDI(MirageBasic):
@@ -132,14 +174,24 @@ class MirageNAILink:
 
 
 if __name__ == "__main__":
-    NAI = MirageNAI("192.168.8.192")
-    NDI = MirageNDI("192.168.8.195")
-    NPT = MirageNPT("192.168.8.193")
-    NDO = MirageNDO("192.168.8.194")
-    NAO = MirageNAODI("192.168.8.191")
+    perenemmss = Tag()
+    print(perenemmss.getValue())
 
-    Peremennaya = Tag()
-    a = MirageNAILink(Module=NAI, Tag2=Peremennaya)
+    NAI = MirageNAI(host="192.168.8.192", Ch3=perenemmss)
+
+
+    NAI.getAll()
+    print(perenemmss.getValue())
+    # NAI.start()
+
+
+    # NDI = MirageNDI("192.168.8.195")
+    # NPT = MirageNPT("192.168.8.193")
+    # NDO = MirageNDO("192.168.8.194")
+    # NAO = MirageNAODI("192.168.8.191")
+
+    # Peremennaya = Tag()
+    # a = MirageNAILink(Module=NAI, Tag2=Peremennaya)
     # a.syncOnce()
     # print(NAI.getAll())
     # print(NDI.getAll())

@@ -24,3 +24,4 @@ PLC_tags = {
     "AO0_AI0_ITP": Tag(),
     "AO1_AI1": Tag()
 }
+
