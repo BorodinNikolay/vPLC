@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,8 +48,8 @@
        <widget class="QPushButton" name="pushButton">
         <property name="geometry">
          <rect>
-          <x>10</x>
-          <y>160</y>
+          <x>30</x>
+          <y>570</y>
           <width>111</width>
           <height>51</height>
          </rect>
@@ -58,49 +58,11 @@
          <string>PushButton</string>
         </property>
        </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>310</y>
-          <width>411</width>
-          <height>161</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="3" column="0">
-          <widget class="QLabel" name="label">
-           <property name="font">
-            <font>
-             <pointsize>28</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>TEXT TEXT</string>
-           </property>
-           <property name="textFormat">
-            <enum>Qt::AutoText</enum>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QProgressBar" name="progressBar">
-           <property name="value">
-            <number>24</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>218</x>
-          <y>250</y>
+          <x>390</x>
+          <y>550</y>
           <width>401</width>
           <height>31</height>
          </rect>
@@ -124,8 +86,8 @@
        <widget class="QLabel" name="_220DI0">
         <property name="geometry">
          <rect>
-          <x>50</x>
-          <y>40</y>
+          <x>20</x>
+          <y>44</y>
           <width>50</width>
           <height>50</height>
          </rect>
@@ -143,8 +105,8 @@
        <widget class="QLabel" name="_220DI1">
         <property name="geometry">
          <rect>
-          <x>110</x>
-          <y>40</y>
+          <x>80</x>
+          <y>44</y>
           <width>50</width>
           <height>50</height>
          </rect>
@@ -162,8 +124,8 @@
        <widget class="QLabel" name="_220DI2">
         <property name="geometry">
          <rect>
-          <x>170</x>
-          <y>40</y>
+          <x>140</x>
+          <y>44</y>
           <width>50</width>
           <height>50</height>
          </rect>
@@ -181,7 +143,7 @@
        <widget class="QLabel" name="_24DI2">
         <property name="geometry">
          <rect>
-          <x>540</x>
+          <x>950</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -200,7 +162,7 @@
        <widget class="QLabel" name="_24DI0">
         <property name="geometry">
          <rect>
-          <x>420</x>
+          <x>830</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -219,7 +181,7 @@
        <widget class="QLabel" name="_24DI1">
         <property name="geometry">
          <rect>
-          <x>480</x>
+          <x>890</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -238,7 +200,7 @@
        <widget class="QLabel" name="_24DI5">
         <property name="geometry">
          <rect>
-          <x>710</x>
+          <x>1120</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -257,7 +219,7 @@
        <widget class="QLabel" name="_24DI4">
         <property name="geometry">
          <rect>
-          <x>650</x>
+          <x>1060</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -276,7 +238,7 @@
        <widget class="QLabel" name="_24DI3">
         <property name="geometry">
          <rect>
-          <x>590</x>
+          <x>1000</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -295,7 +257,7 @@
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>560</x>
+          <x>970</x>
           <y>10</y>
           <width>49</width>
           <height>16</height>
@@ -308,14 +270,461 @@
        <widget class="QLabel" name="label_4">
         <property name="geometry">
          <rect>
-          <x>110</x>
+          <x>80</x>
           <y>10</y>
+          <width>49</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>220 V:</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>160</y>
+          <width>1181</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2">
+         <item row="0" column="1">
+          <widget class="QCheckBox" name="cb1">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="20">
+          <widget class="QCheckBox" name="cb20">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>20</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="11">
+          <widget class="QCheckBox" name="cb11">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>11</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="10">
+          <widget class="QCheckBox" name="cb10">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>10</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <widget class="QCheckBox" name="cb4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>4</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="18">
+          <widget class="QCheckBox" name="cb18">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>18</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="8">
+          <widget class="QCheckBox" name="cb8">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>8</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="21">
+          <widget class="QCheckBox" name="cb21">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>21</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="14">
+          <widget class="QCheckBox" name="cb14">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>14</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="19">
+          <widget class="QCheckBox" name="cb19">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>19</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="7">
+          <widget class="QCheckBox" name="cb7">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>7</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="6">
+          <widget class="QCheckBox" name="cb6">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>6</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="17">
+          <widget class="QCheckBox" name="cb17">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>17</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="9">
+          <widget class="QCheckBox" name="cb9">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>9</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QCheckBox" name="cb3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="22">
+          <widget class="QCheckBox" name="cb22">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>22</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QCheckBox" name="cb2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>2</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="15">
+          <widget class="QCheckBox" name="cb15">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>15</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="13">
+          <widget class="QCheckBox" name="cb13">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>13</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QCheckBox" name="cb5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>5</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="23">
+          <widget class="QCheckBox" name="cb23">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>23</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="cb0">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="16">
+          <widget class="QCheckBox" name="cb16">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>16</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="12">
+          <widget class="QCheckBox" name="cb12">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>12</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QProgressBar" name="progressBar">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>700</y>
+          <width>409</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label">
+        <property name="geometry">
+         <rect>
+          <x>380</x>
+          <y>570</y>
+          <width>409</width>
+          <height>124</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>28</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>TEXT TEXT</string>
+        </property>
+        <property name="textFormat">
+         <enum>Qt::AutoText</enum>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_5">
+        <property name="geometry">
+         <rect>
+          <x>560</x>
+          <y>130</y>
           <width>49</width>
           <height>16</height>
          </rect>
         </property>
         <property name="text">
-         <string>220 V:</string>
+         <string>DQ:</string>
         </property>
        </widget>
       </widget>

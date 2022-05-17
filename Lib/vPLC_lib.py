@@ -15,10 +15,16 @@ class Tag:
 
     def setValue(self, value):
         self.value = value
-        # print(value)
+        # print(self.getClassVariableName())
 
     def getValue(self):
         return self.value
+
+    def getClassVariableName(self):
+        for i, j in globals().items():
+            if j is self:
+                return i
+
 
 class Refresh(QThread):
     refreshSignal = pyqtSignal()

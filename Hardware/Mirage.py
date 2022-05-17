@@ -17,6 +17,7 @@ class MirageBasic(QThread, ModbusClient):
 
 class MirageNAI(MirageBasic):
     signal = pyqtSignal()
+
     def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
                  Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
                  Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
@@ -24,11 +25,6 @@ class MirageNAI(MirageBasic):
         super().__init__(*args, **kwargs)
         self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15]
         self._ChPrevious = None
-
-    def getClassVariableName(self):
-        for i, j in globals().items():
-            if j is self:
-                return i
 
     def getValue(self, channel):
         return self.read_holding_registers(channel, 1)[0]
@@ -59,17 +55,20 @@ class MirageNAI(MirageBasic):
     def run(self):
         while True:
             self.getAll()
+            # time.sleep(0.001)
 
 
 class MirageNDI(MirageBasic):
     signal = pyqtSignal()
+
     def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
                  Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
                  Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
-                 Ch15: Tag = None,  Ch16: Tag = None, Ch17: Tag = None, Ch18: Tag = None, Ch19: Tag = None,
+                 Ch15: Tag = None, Ch16: Tag = None, Ch17: Tag = None, Ch18: Tag = None, Ch19: Tag = None,
                  Ch20: Tag = None, Ch21: Tag = None, Ch22: Tag = None, Ch23: Tag = None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15, Ch16, Ch17, Ch18, Ch19, Ch20, Ch21, Ch22, Ch23]
+        self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15, Ch16, Ch17,
+                    Ch18, Ch19, Ch20, Ch21, Ch22, Ch23]
         self._ChPrevious = None
 
     def getValue(self, channel):
@@ -109,6 +108,7 @@ class MirageNDI(MirageBasic):
     def run(self):
         while True:
             self.getAll()
+            # time.sleep(0.001)
 
 
 class MirageNPT(MirageBasic):
@@ -121,6 +121,17 @@ class MirageNPT(MirageBasic):
 
 
 class MirageNDO(MirageBasic):
+    signal = pyqtSignal()
+
+    def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
+                 Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
+                 Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
+                 Ch15: Tag = None, Ch16: Tag = None, Ch17: Tag = None, Ch18: Tag = None, Ch19: Tag = None,
+                 Ch20: Tag = None, Ch21: Tag = None, Ch22: Tag = None, Ch23: Tag = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15, Ch16, Ch17,
+                    Ch18, Ch19, Ch20, Ch21, Ch22, Ch23]
+        self._ChPrevious = []
 
     def getAll(self):
         raw = self.read_holding_registers(1000, 24)
@@ -150,6 +161,34 @@ class MirageNDO(MirageBasic):
         else:
             val = [0] * 24
         self.write_multiple_registers(1000, val)
+
+    def syncTags(self):
+        _new = [False] * 24
+        _changes = []
+        # создается _new
+        for i, v in enumerate(self._Ch):
+            if v and isinstance(v.value, bool):
+                _new[i] = v.value
+        # Создается список изменений
+        if _new != self._ChPrevious:
+            if not self._ChPrevious:
+                for i, v in enumerate(_new):
+                    _changes.append((i, v))
+            else:
+                for i, v in enumerate(_new):
+                    if v != self._ChPrevious[i]:
+                        _changes.append((i, v))
+        # Присваивается предыдущему значению настоящее
+        self._ChPrevious = _new
+        # Фильтруется отсутствие изменений
+        for i in _changes:
+            self.setValue(i[0], i[1])
+            self.signal.emit()
+
+    def run(self):
+        while True:
+            self.syncTags()
+            time.sleep(0.001)
 
 
 class MirageNAODI(MirageBasic):
@@ -209,11 +248,9 @@ if __name__ == "__main__":
 
     NAI = MirageNAI(host="192.168.8.192", Ch3=perenemmss)
 
-
     NAI.getAll()
     print(perenemmss.getValue())
     # NAI.start()
-
 
     # NDI = MirageNDI("192.168.8.195")
     # NPT = MirageNPT("192.168.8.193")
