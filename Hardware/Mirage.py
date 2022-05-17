@@ -57,12 +57,20 @@ class MirageNAI(MirageBasic):
             return _result
 
     def run(self):
-        print("Run")
         while True:
             self.getAll()
 
 
 class MirageNDI(MirageBasic):
+    signal = pyqtSignal()
+    def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
+                 Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
+                 Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
+                 Ch15: Tag = None,  Ch16: Tag = None, Ch17: Tag = None, Ch18: Tag = None, Ch19: Tag = None,
+                 Ch20: Tag = None, Ch21: Tag = None, Ch22: Tag = None, Ch23: Tag = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15, Ch16, Ch17, Ch18, Ch19, Ch20, Ch21, Ch22, Ch23]
+        self._ChPrevious = None
 
     def getValue(self, channel):
         if self.read_holding_registers(1000 + channel, 1) == [0]:
@@ -72,13 +80,35 @@ class MirageNDI(MirageBasic):
 
     def getAll(self):
         raw = self.read_holding_registers(1000, 24)
-        result = []
+        _result = []
         for i in raw:
             if i == 0:
-                result.append(False)
+                _result.append(False)
             else:
-                result.append(True)
-        return result
+                _result.append(True)
+
+        _changes = []
+        if self._ChPrevious != _result:
+            if not self._ChPrevious:
+                for i, v in enumerate(_result):
+                    _changes.append((i, v))
+            else:
+                for i, v in enumerate(_result):
+                    if self._ChPrevious[i] != v:
+                        _changes.append((i, v))
+
+            for k in _changes:
+                # print(k, self._Ch[k[0]])
+                if self._Ch[k[0]]:
+                    self._Ch[k[0]].setValue(k[1])
+                    self.signal.emit()
+
+            self._ChPrevious = _result
+            return _result
+
+    def run(self):
+        while True:
+            self.getAll()
 
 
 class MirageNPT(MirageBasic):
