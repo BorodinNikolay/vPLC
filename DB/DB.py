@@ -1,10 +1,10 @@
 from Lib.vPLC_lib import Tag
 
 DB = {
-    "AI0_AO0": Tag(),
-    "AI1_AO1": Tag(),
-    "AI2_T_mA": Tag(),
-    "AI3_NPSI": Tag(),
+    "AI0_AO0": Tag(value=0),
+    "AI1_AO1": Tag(value=0),
+    "AI2_T_mA": Tag(value=0),
+    "AI3_NPSI": Tag(value=0),
     "220DI0_220V": Tag(),
     "220DI1_2KeyLeft": Tag(),
     "220DI2_2KeyRight": Tag(),
@@ -41,6 +41,6 @@ DB = {
     "24DI5_NDO1": Tag(),
     "24DI6_NDO0": Tag(),
     "24DI7_NDO0_invert": Tag(),
-    "AO0_AI0_ITP": Tag(),
+    "AO0_AI0_ITP": Tag(value=0),
     "AO1_AI1": Tag()
 }

@@ -45,30 +45,23 @@
        <attribute name="title">
         <string>Статус</string>
        </attribute>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QLabel" name="AI2">
         <property name="geometry">
          <rect>
-          <x>30</x>
-          <y>570</y>
-          <width>111</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_2">
-        <property name="geometry">
-         <rect>
-          <x>390</x>
-          <y>550</y>
-          <width>401</width>
+          <x>100</x>
+          <y>470</y>
+          <width>131</width>
           <height>31</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="text">
-         <string>Digital Input</string>
+         <string>AI2</string>
         </property>
         <property name="scaledContents">
          <bool>false</bool>
@@ -143,7 +136,7 @@
        <widget class="QLabel" name="_24DI2">
         <property name="geometry">
          <rect>
-          <x>950</x>
+          <x>820</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -162,7 +155,7 @@
        <widget class="QLabel" name="_24DI0">
         <property name="geometry">
          <rect>
-          <x>830</x>
+          <x>700</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -181,7 +174,7 @@
        <widget class="QLabel" name="_24DI1">
         <property name="geometry">
          <rect>
-          <x>890</x>
+          <x>760</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
@@ -200,14 +193,14 @@
        <widget class="QLabel" name="_24DI5">
         <property name="geometry">
          <rect>
-          <x>1120</x>
+          <x>1000</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
          </rect>
         </property>
         <property name="text">
-         <string>DI2</string>
+         <string>DI5</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -219,14 +212,14 @@
        <widget class="QLabel" name="_24DI4">
         <property name="geometry">
          <rect>
-          <x>1060</x>
+          <x>940</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
          </rect>
         </property>
         <property name="text">
-         <string>DI1</string>
+         <string>DI4</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -238,14 +231,14 @@
        <widget class="QLabel" name="_24DI3">
         <property name="geometry">
          <rect>
-          <x>1000</x>
+          <x>880</x>
           <y>40</y>
           <width>50</width>
           <height>50</height>
          </rect>
         </property>
         <property name="text">
-         <string>DI0</string>
+         <string>DI3</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -257,7 +250,7 @@
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
-          <x>970</x>
+          <x>910</x>
           <y>10</y>
           <width>49</width>
           <height>16</height>
@@ -679,9 +672,9 @@
        <widget class="QProgressBar" name="progressBar">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>700</y>
-          <width>409</width>
+          <x>200</x>
+          <y>510</y>
+          <width>300</width>
           <height>29</height>
          </rect>
         </property>
@@ -689,23 +682,23 @@
          <number>24</number>
         </property>
        </widget>
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="AI3">
         <property name="geometry">
          <rect>
-          <x>380</x>
-          <y>570</y>
-          <width>409</width>
-          <height>124</height>
+          <x>130</x>
+          <y>510</y>
+          <width>71</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <pointsize>28</pointsize>
+          <pointsize>16</pointsize>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>TEXT TEXT</string>
+         <string>AI3</string>
         </property>
         <property name="textFormat">
          <enum>Qt::AutoText</enum>
@@ -725,6 +718,252 @@
         </property>
         <property name="text">
          <string>DQ:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="_24DI7">
+        <property name="geometry">
+         <rect>
+          <x>1120</x>
+          <y>40</y>
+          <width>50</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>DI7</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="_24DI6">
+        <property name="geometry">
+         <rect>
+          <x>1060</x>
+          <y>40</y>
+          <width>50</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>DI6</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QSlider" name="horizontalSlider">
+        <property name="geometry">
+         <rect>
+          <x>860</x>
+          <y>400</y>
+          <width>240</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="lineEdit">
+        <property name="geometry">
+         <rect>
+          <x>860</x>
+          <y>440</y>
+          <width>240</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_6">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>400</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AO_0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_7">
+        <property name="geometry">
+         <rect>
+          <x>790</x>
+          <y>440</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AO_1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_8">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>400</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AI_0</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_9">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>440</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AI_1</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_10">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>480</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AI_2</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_11">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>520</y>
+          <width>49</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>AI_3</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AI0">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>390</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>AI0</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+        <property name="openExternalLinks">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QLabel" name="AI1">
+        <property name="geometry">
+         <rect>
+          <x>100</x>
+          <y>430</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>AI1</string>
+        </property>
+        <property name="scaledContents">
+         <bool>false</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>false</bool>
+        </property>
+        <property name="openExternalLinks">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="progressBar_2">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>390</y>
+          <width>300</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="progressBar_3">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>430</y>
+          <width>300</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>24</number>
+        </property>
+       </widget>
+       <widget class="QProgressBar" name="progressBar_4">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>470</y>
+          <width>300</width>
+          <height>29</height>
+         </rect>
+        </property>
+        <property name="value">
+         <number>24</number>
         </property>
        </widget>
       </widget>

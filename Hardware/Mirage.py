@@ -60,7 +60,6 @@ class MirageNAI(MirageBasic):
 
 class MirageNDI(MirageBasic):
     signal = pyqtSignal()
-
     def __init__(self, Ch0: Tag = None, Ch1: Tag = None, Ch2: Tag = None, Ch3: Tag = None, Ch4: Tag = None,
                  Ch5: Tag = None, Ch6: Tag = None, Ch7: Tag = None, Ch8: Tag = None, Ch9: Tag = None,
                  Ch10: Tag = None, Ch11: Tag = None, Ch12: Tag = None, Ch13: Tag = None, Ch14: Tag = None,
@@ -192,16 +191,41 @@ class MirageNDO(MirageBasic):
 
 
 class MirageNAODI(MirageBasic):
+    signal = pyqtSignal()
+    def __init__(self, DICh0: Tag = None, DICh1: Tag = None, DICh2: Tag = None, DICh3: Tag = None, DICh4: Tag = None,
+                 DICh5: Tag = None, DICh6: Tag = None, DICh7: Tag = None, AOCh0: Tag = None, AOCh1: Tag = None, AOCh2: Tag = None,
+                 AOCh3: Tag = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._Ch = [DICh0, DICh1, DICh2, DICh3, DICh4, DICh5, DICh6, DICh7, AOCh0, AOCh1, AOCh2, AOCh3]
+        self._ChPreviousDI = None
+        self._ChPreviousAO = None
 
     def getAllDI(self):
         raw = self.read_holding_registers(16, 8)
-        result = []
+        _result = []
+        _changes = []
         for i in raw:
             if i == 0:
-                result.append(False)
+                _result.append(False)
             else:
-                result.append(True)
-        return result
+                _result.append(True)
+        if self._ChPreviousDI != _result:
+            if not self._ChPreviousDI:
+                for i, v in enumerate(_result):
+                    _changes.append((i, v))
+            else:
+                for i, v in enumerate(_result):
+                    if self._ChPreviousDI[i] != v:
+                        _changes.append((i, v))
+
+            for k in _changes:
+                # print(k, self._Ch[k[0]])
+                if self._Ch[k[0]]:
+                    self._Ch[k[0]].setValue(k[1])
+                    self.signal.emit()
+
+            self._ChPreviousDI = _result
+            return _result
 
     def getAllAO(self):
         return self.read_holding_registers(0, 4)
@@ -218,75 +242,44 @@ class MirageNAODI(MirageBasic):
     def setValueAO(self, channel, value):
         self.write_single_register(channel, value)
 
+    def syncTags(self):
+        _new = [0] * 4
+        _changes = []
+        # создается _new
+        for i, v in enumerate(self._Ch[8:]):
+            if v and isinstance(v.value, int) and 0 < v.value < 25000:
+                _new[i] = v.value
+        # Создается список изменений
+        if _new != self._ChPreviousAO:
+            if not self._ChPreviousAO:
+                for i, v in enumerate(_new):
+                    _changes.append((i, v))
+            else:
+                for i, v in enumerate(_new):
+                    if v != self._ChPreviousAO[i]:
+                        _changes.append((i, v))
+        # Присваивается предыдущему значению настоящее
+        self._ChPreviousAO = _new
+        # Фильтруется отсутствие изменений
+        for i in _changes:
+            # print(i)
+            self.setValueAO(i[0], i[1])
+            self.signal.emit()
 
-class MirageNAILink:
-    def __init__(self, Module: MirageNAI = None, Tag0: Tag = None, Tag1: Tag = None, Tag2: Tag = None, Tag3: Tag = None,
-                 Tag4: Tag = None, Tag5: Tag = None, Tag6: Tag = None,
-                 Tag7: Tag = None, Tag8: Tag = None, Tag9: Tag = None, Tag10: Tag = None, Tag11: Tag = None,
-                 Tag12: Tag = None, Tag13: Tag = None, Tag14: Tag = None,
-                 Tag15: Tag = None):
-        self.Module = Module
-        self.Tags = [Tag0, Tag1, Tag2, Tag3, Tag4, Tag5, Tag6, Tag7, Tag8, Tag9, Tag10, Tag11, Tag12, Tag13, Tag14,
-                     Tag15]
 
-    def syncOnce(self):
-        array = self.Module.getAll()
-        for _ in self.Tags:
-            if _:
-                _.setValue(array[self.Tags.index(_)])
-                # print(f"Tag{self.Tags.index(_)} значение {array[self.Tags.index(_)]}")
-
-    def syncLoop(self):
+    def run(self):
         while True:
-            self.syncOnce()
-            time.sleep(0.1)
+            self.getAllDI()
+            self.syncTags()
+            # time.sleep(0.0001)
+
+
 
 
 if __name__ == "__main__":
-    perenemmss = Tag()
-    print(perenemmss.getValue())
+    NAI = MirageNAI(host="192.168.8.192")
+    NDI = MirageNDI(host="192.168.8.195")
+    NPT = MirageNPT(host="192.168.8.193")
+    NDO = MirageNDO(host="192.168.8.194")
+    NAO = MirageNAODI(host="192.168.8.191")
 
-    NAI = MirageNAI(host="192.168.8.192", Ch3=perenemmss)
-
-    NAI.getAll()
-    print(perenemmss.getValue())
-    # NAI.start()
-
-    # NDI = MirageNDI("192.168.8.195")
-    # NPT = MirageNPT("192.168.8.193")
-    # NDO = MirageNDO("192.168.8.194")
-    # NAO = MirageNAODI("192.168.8.191")
-
-    # Peremennaya = Tag()
-    # a = MirageNAILink(Module=NAI, Tag2=Peremennaya)
-    # a.syncOnce()
-    # print(NAI.getAll())
-    # print(NDI.getAll())
-    # print(NPT.getAll())
-    # print(NDO.getAll())
-    # print(NAO.getAllDI())
-
-    # for _ in range(4000, 20000, 10):
-    #     NAO.setValueAO(0, _)
-    #     time.sleep(0.1)
-    #
-    # for _ in range(20000, 4000, -10):
-    #     NAO.setValueAO(0, _)
-    #     time.sleep(0.1)
-
-    # startTime = time.time()
-    # for i in range(100):
-    #     for i in range(16):
-    #         NAI.getValue(i)
-    # print(time.time()-startTime)
-    #
-    # startTime = time.time()
-    # for i in range(100):
-    #     NAI.getAll()
-    # print(time.time() - startTime)
-
-    # for i in range(100):
-    #     for j in range(24):
-    #         NDO.setValue(j, True)
-    #     for j in range(24):
-    #         NDO.setValue(j, False)

@@ -28,6 +28,7 @@ class Tag:
 
 class Refresh(QThread):
     refreshSignal = pyqtSignal()
+
     def __init__(self, refreshTime, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.refreshTime = refreshTime
@@ -37,3 +38,29 @@ class Refresh(QThread):
             self.refreshSignal.emit()
             print("Refresh")
             time.sleep(self.refreshTime)
+
+
+class OB(QThread):
+    refreshSignal = pyqtSignal()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def loop(self):
+        pass
+
+    def run(self):
+        while True:
+            self.loop()
+            time.sleep(0.01)
+
+
+# FUNCTIONS
+
+def lamp24control(value, *args):
+    _num = round(((value.getValue() - 4000) / 160) / 100 * len(args))
+    for i, v in enumerate(args):
+        if i <= _num-1:
+            v.setValue(True)
+        else:
+            v.setValue(False)

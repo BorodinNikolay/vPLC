@@ -3,7 +3,7 @@ import time
 from functools import partial
 
 from PyQt6.QtWidgets import QApplication, QMainWindow
-from PyQt6.QtGui import QIcon, QColor
+from PyQt6.QtGui import QIcon, QColor, QIntValidator
 from PyQt6.QtCore import QThread, pyqtSignal, Qt
 from PyQt6 import uic
 from UI import ui_vPLC
@@ -11,6 +11,7 @@ from Hardware import Mirage
 from qt_material import apply_stylesheet
 from Lib.vPLC_lib import *
 from DB.DB import DB
+from OB.OB1 import OB1
 
 
 class Window(QMainWindow):
@@ -23,8 +24,8 @@ class Window(QMainWindow):
         self.setWindowIcon(QIcon('Graphics/ico.png'))
         self.statusBar()
 
-        self.NAI = Mirage.MirageNAI(host="192.168.8.192", Ch0=DB["AI0_AO0"], Ch1=DB["AI1_AO1"], Ch3=DB["AI2_T_mA"],
-                                    Ch2=DB["AI3_NPSI"])
+        self.NAI = Mirage.MirageNAI(host="192.168.8.192", Ch0=DB["AI0_AO0"], Ch1=DB["AI1_AO1"], Ch2=DB["AI2_T_mA"],
+                                    Ch3=DB["AI3_NPSI"])
         self.NAI.start()
         self.NAI.signal.connect(self.refreshScreenData)
 
@@ -41,6 +42,16 @@ class Window(QMainWindow):
                                     Ch19=DB["DO19"], Ch20=DB["DO20"], Ch21=DB["DO21"], Ch22=DB["DO22"],
                                     Ch23=DB["DO23"])
         self.NDO.start()
+
+        self.NAODI = Mirage.MirageNAODI(host="192.168.8.191", DICh0=DB["24DI0_220V"], DICh1=DB["24DI1_Button"],
+                                        DICh2=DB["24DI2_1KeyLeft"], DICh3=DB["24DI3_1KeyRight"], DICh5=DB["24DI5_NDO1"],
+                                        DICh6=DB["24DI6_NDO0"], DICh7=DB["24DI7_NDO0_invert"],
+                                        AOCh0=DB["AO0_AI0_ITP"], AOCh1=DB["AO1_AI1"])
+        self.NAODI.start()
+        self.NAODI.signal.connect(self.refreshScreenData)
+
+        self.OB1 = OB1()
+        self.OB1.start()
 
         self.ui.cb0.toggled.connect(partial(self.checkBox, db=DB["DO0_NAODI_6_7"]))
         self.ui.cb1.toggled.connect(partial(self.checkBox, db=DB["DO1_NAODI_5"]))
@@ -67,31 +78,86 @@ class Window(QMainWindow):
         self.ui.cb22.toggled.connect(partial(self.checkBox, db=DB["DO22"]))
         self.ui.cb23.toggled.connect(partial(self.checkBox, db=DB["DO23"]))
 
-
+        self.ui.horizontalSlider.valueChanged.connect(partial(self.sliderToDB, db=DB["AO0_AI0_ITP"]))
+        self.ui.lineEdit.setValidator(QIntValidator(0, 25000))
+        self.ui.lineEdit.returnPressed.connect(partial(self.lineEditToDB, db=DB["AO1_AI1"]))
 
     def refreshScreenData(self):
-        self.ui.label.setText(str(float('{:.1f}'.format((DB["AI2_T_mA"].getValue() - 4000) / 160))) + " %")
-        self.ui.label_2.setText(str(float('{:.1f}'.format((((DB["AI3_NPSI"].getValue() - 4000) / 160)) - 50))) + " °C")
+        self.ui.AI0.setText(str(DB["AI0_AO0"].getValue()))
+        self.ui.AI1.setText(str(DB["AI1_AO1"].getValue()))
+        self.ui.AI2.setText(str(float('{:.1f}'.format((((DB["AI2_T_mA"].getValue() - 4000) / 160)) - 50))) + " °C")
+        self.ui.AI3.setText(str(float('{:.1f}'.format((DB["AI3_NPSI"].getValue() - 4000) / 160))) + " %")
+
+        self.ui.progressBar_2.setRange(4000, 20000)
+        self.ui.progressBar_2.setValue(DB["AI0_AO0"].getValue())
+
+        self.ui.progressBar_3.setRange(4000, 20000)
+        self.ui.progressBar_3.setValue(DB["AI1_AO1"].getValue())
+
+        self.ui.progressBar_4.setRange(4000, 20000)
+        self.ui.progressBar_4.setValue(DB["AI2_T_mA"].getValue())
+
         self.ui.progressBar.setRange(4000, 20000)
-        self.ui.progressBar.setValue(DB["AI2_T_mA"].getValue())
+        self.ui.progressBar.setValue(DB["AI3_NPSI"].getValue())
 
         if DB["220DI0_220V"].getValue():
-            self.ui._220DI0.setStyleSheet("background-color: green")
+            self.ui._220DI0.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI0.setStyleSheet("background-color: red")
 
         if DB["220DI1_2KeyLeft"].getValue():
-            self.ui._220DI1.setStyleSheet("background-color: green")
+            self.ui._220DI1.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI1.setStyleSheet("background-color: red")
 
         if DB["220DI2_2KeyRight"].getValue():
-            self.ui._220DI2.setStyleSheet("background-color: green")
+            self.ui._220DI2.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI2.setStyleSheet("background-color: red")
 
+        if DB["24DI0_220V"].getValue():
+            self.ui._24DI0.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI0.setStyleSheet("background-color: red")
+
+        if DB["24DI1_Button"].getValue():
+            self.ui._24DI1.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI1.setStyleSheet("background-color: red")
+
+        if DB["24DI2_1KeyLeft"].getValue():
+            self.ui._24DI2.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI2.setStyleSheet("background-color: red")
+
+        if DB["24DI3_1KeyRight"].getValue():
+            self.ui._24DI3.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI3.setStyleSheet("background-color: red")
+
+        if DB["24DI5_NDO1"].getValue():
+            self.ui._24DI5.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI5.setStyleSheet("background-color: red")
+
+        if DB["24DI6_NDO0"].getValue():
+            self.ui._24DI6.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI6.setStyleSheet("background-color: red")
+
+        if DB["24DI7_NDO0_invert"].getValue():
+            self.ui._24DI7.setStyleSheet("background-color: Lime")
+        else:
+            self.ui._24DI7.setStyleSheet("background-color: red")
+
     def checkBox(self, state, db):
         db.setValue(state)
+
+    def sliderToDB(self, value, db):
+        db.setValue(value * 160 + 4000)
+
+    def lineEditToDB(self, db):
+        db.setValue(int(self.ui.lineEdit.text()))
 
 
 if __name__ == "__main__":
