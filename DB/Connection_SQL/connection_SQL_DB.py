@@ -2,9 +2,6 @@ from peewee import *
 
 database = SqliteDatabase('./SQLiteDB.db')
 
-if __name__ == "__main__":
-    pass
-
 
 
 

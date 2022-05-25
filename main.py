@@ -10,7 +10,7 @@ from UI import ui_vPLC
 from Hardware import Mirage
 from qt_material import apply_stylesheet
 from Lib.vPLC_lib import *
-from DB.DB import DB
+from DB.DB import PLC_Tags
 from OB.OB1 import OB1
 
 
@@ -24,128 +24,128 @@ class Window(QMainWindow):
         self.setWindowIcon(QIcon('Graphics/ico.png'))
         self.statusBar()
 
-        self.NAI = Mirage.MirageNAI(host="192.168.8.192", Ch0=DB["AI0_AO0"], Ch1=DB["AI1_AO1"], Ch2=DB["AI2_T_mA"],
-                                    Ch3=DB["AI3_NPSI"])
+        self.NAI = Mirage.MirageNAI(host="192.168.8.192", Ch0=PLC_Tags["AI0_AO0"], Ch1=PLC_Tags["AI1_AO1"], Ch2=PLC_Tags["AI2_T_mA"],
+                                    Ch3=PLC_Tags["AI3_NPSI"])
         self.NAI.start()
         self.NAI.signal.connect(self.refreshScreenData)
 
-        self.NDI = Mirage.MirageNDI(host="192.168.8.195", Ch0=DB["220DI0_220V"], Ch1=DB["220DI1_2KeyLeft"],
-                                    Ch2=DB["220DI2_2KeyRight"])
+        self.NDI = Mirage.MirageNDI(host="192.168.8.195", Ch0=PLC_Tags["220DI0_220V"], Ch1=PLC_Tags["220DI1_2KeyLeft"],
+                                    Ch2=PLC_Tags["220DI2_2KeyRight"])
         self.NDI.start()
         self.NDI.signal.connect(self.refreshScreenData)
 
-        self.NDO = Mirage.MirageNDO(host="192.168.8.194", Ch0=DB["DO0_NAODI_6_7"], Ch1=DB["DO1_NAODI_5"],
-                                    Ch2=DB["DO2_Lamp"], Ch3=DB["DO3"], Ch4=DB["DO4"], Ch5=DB["DO5"], Ch6=DB["DO6"],
-                                    Ch7=DB["DO7"], Ch8=DB["DO8"], Ch9=DB["DO9"], Ch10=DB["DO10"],
-                                    Ch11=DB["DO11"], Ch12=DB["DO12"], Ch13=DB["DO13"], Ch14=DB["DO14"],
-                                    Ch15=DB["DO15"], Ch16=DB["DO16"], Ch17=DB["DO17"], Ch18=DB["DO18"],
-                                    Ch19=DB["DO19"], Ch20=DB["DO20"], Ch21=DB["DO21"], Ch22=DB["DO22"],
-                                    Ch23=DB["DO23"])
+        self.NDO = Mirage.MirageNDO(host="192.168.8.194", Ch0=PLC_Tags["DO0_NAODI_6_7"], Ch1=PLC_Tags["DO1_NAODI_5"],
+                                    Ch2=PLC_Tags["DO2_Lamp"], Ch3=PLC_Tags["DO3"], Ch4=PLC_Tags["DO4"], Ch5=PLC_Tags["DO5"], Ch6=PLC_Tags["DO6"],
+                                    Ch7=PLC_Tags["DO7"], Ch8=PLC_Tags["DO8"], Ch9=PLC_Tags["DO9"], Ch10=PLC_Tags["DO10"],
+                                    Ch11=PLC_Tags["DO11"], Ch12=PLC_Tags["DO12"], Ch13=PLC_Tags["DO13"], Ch14=PLC_Tags["DO14"],
+                                    Ch15=PLC_Tags["DO15"], Ch16=PLC_Tags["DO16"], Ch17=PLC_Tags["DO17"], Ch18=PLC_Tags["DO18"],
+                                    Ch19=PLC_Tags["DO19"], Ch20=PLC_Tags["DO20"], Ch21=PLC_Tags["DO21"], Ch22=PLC_Tags["DO22"],
+                                    Ch23=PLC_Tags["DO23"])
         self.NDO.start()
 
-        self.NAODI = Mirage.MirageNAODI(host="192.168.8.191", DICh0=DB["24DI0_220V"], DICh1=DB["24DI1_Button"],
-                                        DICh2=DB["24DI2_1KeyLeft"], DICh3=DB["24DI3_1KeyRight"], DICh5=DB["24DI5_NDO1"],
-                                        DICh6=DB["24DI6_NDO0"], DICh7=DB["24DI7_NDO0_invert"],
-                                        AOCh0=DB["AO0_AI0_ITP"], AOCh1=DB["AO1_AI1"])
+        self.NAODI = Mirage.MirageNAODI(host="192.168.8.191", DICh0=PLC_Tags["24DI0_220V"], DICh1=PLC_Tags["24DI1_Button"],
+                                        DICh2=PLC_Tags["24DI2_1KeyLeft"], DICh3=PLC_Tags["24DI3_1KeyRight"], DICh5=PLC_Tags["24DI5_NDO1"],
+                                        DICh6=PLC_Tags["24DI6_NDO0"], DICh7=PLC_Tags["24DI7_NDO0_invert"],
+                                        AOCh0=PLC_Tags["AO0_AI0_ITP"], AOCh1=PLC_Tags["AO1_AI1"])
         self.NAODI.start()
         self.NAODI.signal.connect(self.refreshScreenData)
 
         self.OB1 = OB1()
         self.OB1.start()
 
-        self.ui.cb0.toggled.connect(partial(self.checkBox, db=DB["DO0_NAODI_6_7"]))
-        self.ui.cb1.toggled.connect(partial(self.checkBox, db=DB["DO1_NAODI_5"]))
-        self.ui.cb2.toggled.connect(partial(self.checkBox, db=DB["DO2_Lamp"]))
-        self.ui.cb3.toggled.connect(partial(self.checkBox, db=DB["DO3"]))
-        self.ui.cb4.toggled.connect(partial(self.checkBox, db=DB["DO4"]))
-        self.ui.cb5.toggled.connect(partial(self.checkBox, db=DB["DO5"]))
-        self.ui.cb6.toggled.connect(partial(self.checkBox, db=DB["DO6"]))
-        self.ui.cb7.toggled.connect(partial(self.checkBox, db=DB["DO7"]))
-        self.ui.cb8.toggled.connect(partial(self.checkBox, db=DB["DO8"]))
-        self.ui.cb9.toggled.connect(partial(self.checkBox, db=DB["DO9"]))
-        self.ui.cb10.toggled.connect(partial(self.checkBox, db=DB["DO10"]))
-        self.ui.cb11.toggled.connect(partial(self.checkBox, db=DB["DO11"]))
-        self.ui.cb12.toggled.connect(partial(self.checkBox, db=DB["DO12"]))
-        self.ui.cb13.toggled.connect(partial(self.checkBox, db=DB["DO13"]))
-        self.ui.cb14.toggled.connect(partial(self.checkBox, db=DB["DO14"]))
-        self.ui.cb15.toggled.connect(partial(self.checkBox, db=DB["DO15"]))
-        self.ui.cb16.toggled.connect(partial(self.checkBox, db=DB["DO16"]))
-        self.ui.cb17.toggled.connect(partial(self.checkBox, db=DB["DO17"]))
-        self.ui.cb18.toggled.connect(partial(self.checkBox, db=DB["DO18"]))
-        self.ui.cb19.toggled.connect(partial(self.checkBox, db=DB["DO19"]))
-        self.ui.cb20.toggled.connect(partial(self.checkBox, db=DB["DO20"]))
-        self.ui.cb21.toggled.connect(partial(self.checkBox, db=DB["DO21"]))
-        self.ui.cb22.toggled.connect(partial(self.checkBox, db=DB["DO22"]))
-        self.ui.cb23.toggled.connect(partial(self.checkBox, db=DB["DO23"]))
+        self.ui.cb0.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO0_NAODI_6_7"]))
+        self.ui.cb1.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO1_NAODI_5"]))
+        self.ui.cb2.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO2_Lamp"]))
+        self.ui.cb3.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO3"]))
+        self.ui.cb4.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO4"]))
+        self.ui.cb5.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO5"]))
+        self.ui.cb6.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO6"]))
+        self.ui.cb7.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO7"]))
+        self.ui.cb8.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO8"]))
+        self.ui.cb9.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO9"]))
+        self.ui.cb10.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO10"]))
+        self.ui.cb11.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO11"]))
+        self.ui.cb12.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO12"]))
+        self.ui.cb13.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO13"]))
+        self.ui.cb14.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO14"]))
+        self.ui.cb15.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO15"]))
+        self.ui.cb16.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO16"]))
+        self.ui.cb17.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO17"]))
+        self.ui.cb18.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO18"]))
+        self.ui.cb19.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO19"]))
+        self.ui.cb20.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO20"]))
+        self.ui.cb21.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO21"]))
+        self.ui.cb22.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO22"]))
+        self.ui.cb23.toggled.connect(partial(self.checkBox, db=PLC_Tags["DO23"]))
 
-        self.ui.horizontalSlider.valueChanged.connect(partial(self.sliderToDB, db=DB["AO0_AI0_ITP"]))
+        self.ui.horizontalSlider.valueChanged.connect(partial(self.sliderToDB, db=PLC_Tags["AO0_AI0_ITP"]))
         self.ui.lineEdit.setValidator(QIntValidator(0, 25000))
-        self.ui.lineEdit.returnPressed.connect(partial(self.lineEditToDB, db=DB["AO1_AI1"]))
+        self.ui.lineEdit.returnPressed.connect(partial(self.lineEditToDB, db=PLC_Tags["AO1_AI1"]))
 
     def refreshScreenData(self):
-        self.ui.AI0.setText(str(DB["AI0_AO0"].getValue()))
-        self.ui.AI1.setText(str(DB["AI1_AO1"].getValue()))
-        self.ui.AI2.setText(str(float('{:.1f}'.format((((DB["AI2_T_mA"].getValue() - 4000) / 160)) - 50))) + " °C")
-        self.ui.AI3.setText(str(float('{:.1f}'.format((DB["AI3_NPSI"].getValue() - 4000) / 160))) + " %")
+        self.ui.AI0.setText(str(PLC_Tags["AI0_AO0"].getValue()))
+        self.ui.AI1.setText(str(PLC_Tags["AI1_AO1"].getValue()))
+        self.ui.AI2.setText(str(float('{:.1f}'.format((((PLC_Tags["AI2_T_mA"].getValue() - 4000) / 160)) - 50))) + " °C")
+        self.ui.AI3.setText(str(float('{:.1f}'.format((PLC_Tags["AI3_NPSI"].getValue() - 4000) / 160))) + " %")
 
         self.ui.progressBar_2.setRange(4000, 20000)
-        self.ui.progressBar_2.setValue(DB["AI0_AO0"].getValue())
+        self.ui.progressBar_2.setValue(PLC_Tags["AI0_AO0"].getValue())
 
         self.ui.progressBar_3.setRange(4000, 20000)
-        self.ui.progressBar_3.setValue(DB["AI1_AO1"].getValue())
+        self.ui.progressBar_3.setValue(PLC_Tags["AI1_AO1"].getValue())
 
         self.ui.progressBar_4.setRange(4000, 20000)
-        self.ui.progressBar_4.setValue(DB["AI2_T_mA"].getValue())
+        self.ui.progressBar_4.setValue(PLC_Tags["AI2_T_mA"].getValue())
 
         self.ui.progressBar.setRange(4000, 20000)
-        self.ui.progressBar.setValue(DB["AI3_NPSI"].getValue())
+        self.ui.progressBar.setValue(PLC_Tags["AI3_NPSI"].getValue())
 
-        if DB["220DI0_220V"].getValue():
+        if PLC_Tags["220DI0_220V"].getValue():
             self.ui._220DI0.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI0.setStyleSheet("background-color: red")
 
-        if DB["220DI1_2KeyLeft"].getValue():
+        if PLC_Tags["220DI1_2KeyLeft"].getValue():
             self.ui._220DI1.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI1.setStyleSheet("background-color: red")
 
-        if DB["220DI2_2KeyRight"].getValue():
+        if PLC_Tags["220DI2_2KeyRight"].getValue():
             self.ui._220DI2.setStyleSheet("background-color: Lime")
         else:
             self.ui._220DI2.setStyleSheet("background-color: red")
 
-        if DB["24DI0_220V"].getValue():
+        if PLC_Tags["24DI0_220V"].getValue():
             self.ui._24DI0.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI0.setStyleSheet("background-color: red")
 
-        if DB["24DI1_Button"].getValue():
+        if PLC_Tags["24DI1_Button"].getValue():
             self.ui._24DI1.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI1.setStyleSheet("background-color: red")
 
-        if DB["24DI2_1KeyLeft"].getValue():
+        if PLC_Tags["24DI2_1KeyLeft"].getValue():
             self.ui._24DI2.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI2.setStyleSheet("background-color: red")
 
-        if DB["24DI3_1KeyRight"].getValue():
+        if PLC_Tags["24DI3_1KeyRight"].getValue():
             self.ui._24DI3.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI3.setStyleSheet("background-color: red")
 
-        if DB["24DI5_NDO1"].getValue():
+        if PLC_Tags["24DI5_NDO1"].getValue():
             self.ui._24DI5.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI5.setStyleSheet("background-color: red")
 
-        if DB["24DI6_NDO0"].getValue():
+        if PLC_Tags["24DI6_NDO0"].getValue():
             self.ui._24DI6.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI6.setStyleSheet("background-color: red")
 
-        if DB["24DI7_NDO0_invert"].getValue():
+        if PLC_Tags["24DI7_NDO0_invert"].getValue():
             self.ui._24DI7.setStyleSheet("background-color: Lime")
         else:
             self.ui._24DI7.setStyleSheet("background-color: red")
