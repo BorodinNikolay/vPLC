@@ -41,7 +41,7 @@ PLC_Tags = {
     "24DI5_NDO1": Tag(),
     "24DI6_NDO0": Tag(),
     "24DI7_NDO0_invert": Tag(),
-    "AO0_AI0_ITP": Tag(value=0),
+    "AO0_AI0_ITP": Tag(value=0, name="Begunok", SQL=True),
     "AO1_AI1": Tag()
 }
 
