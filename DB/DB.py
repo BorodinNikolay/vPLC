@@ -4,7 +4,7 @@ PLC_Tags = {
     "AI0_AO0": Tag(value=0, name="AI0_AO0", SQL=True),
     "AI1_AO1": Tag(value=0, name="AI1_AO1"),
     "AI2_T_mA": Tag(value=0, name="AI2_T_mA", SQL=True),
-    "AI3_NPSI": Tag(value=0, name="KRUTILKA", comment="KRUTILKA_SSNAYA", SQL=True),
+    "AI3_NPSI": Tag(value=0, name="KRUTILKA", SQL=True),
     "220DI0_220V": Tag(),
     "220DI1_2KeyLeft": Tag(),
     "220DI2_2KeyRight": Tag(),

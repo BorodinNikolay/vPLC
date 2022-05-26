@@ -1,7 +1,4 @@
-import sys
 import time
-
-import self
 from PyQt6.QtCore import QThread, pyqtSignal
 from datetime import datetime
 from peewee import *
@@ -44,11 +41,6 @@ class Tag:
     def getValue(self):
         return self.value
 
-    def getClassVariableName(self):
-        for i, j in globals().items():
-            print(i, j)
-            if j is self:
-                return i
 
 
 class Refresh(QThread):
