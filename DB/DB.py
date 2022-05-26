@@ -1,39 +1,10 @@
-# from Lib.vPLC_lib import Tag
-from Connection_SQL.SQLiteCore import *
-
-
-class Tag:
-    def __init__(self, value=None, OPC=False, SQL=False):
-        self.value = value
-        self.OPC = OPC
-        self.SQL = SQL
-        self.TagName = None
-        self.ns = globals()
-        print(self.ns)
-
-    # def __setattr__(self, key, value):
-    #     if key == "value" and value:
-    #         print(key, value)
-
-    def setValue(self, value):
-        self.value = value
-        # print(self.getClassVariableName())
-
-    def getValue(self):
-        return self.value
-
-    def getClassVariableName(self):
-        for i, j in globals().items():
-            print(i, j)
-            if j is self:
-                return i
-
+from Lib.vPLC_lib import Tag
 
 PLC_Tags = {
-    # "AI0_AO0": Tag(value=0),
-    # "AI1_AO1": Tag(value=0),
-    # "AI2_T_mA": Tag(value=0),
-    "AI3_NPSI": Tag(value=0),
+    "AI0_AO0": Tag(value=0, name="AI0_AO0"),
+    "AI1_AO1": Tag(value=0, name="AI1_AO1"),
+    "AI2_T_mA": Tag(value=0, name="AI2_T_mA"),
+    "AI3_NPSI": Tag(value=0, name="KRUTILKA", comment="KRUTILKA_SSNAYA")
     # "220DI0_220V": Tag(),
     # "220DI1_2KeyLeft": Tag(),
     # "220DI2_2KeyRight": Tag(),
@@ -74,8 +45,8 @@ PLC_Tags = {
     # "AO1_AI1": Tag()
 }
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # print(globals())
     # print(locals())
     # SQL_tag.create_table()
-    pass
+    # pass
