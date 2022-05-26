@@ -1,3 +1,4 @@
+import sys
 import time
 
 import self
@@ -5,7 +6,10 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from datetime import datetime
 from peewee import *
 
-SqliteDB = SqliteDatabase("SQLite.db")
+if __name__ == '__main__':
+    SqliteDB = SqliteDatabase("SQLite.db")
+else:
+    SqliteDB = SqliteDatabase("DB/SQLite.db")
 
 
 class SQL_tag(Model):
@@ -20,9 +24,8 @@ class SQL_tag(Model):
         order_by = "id"
 
 
-class Tag(SQL_tag):
+class Tag:
     def __init__(self, value=None, name="", comment="", retain=False, dataType=None, OPC=False, SQL=False):
-        super().__init__()
         self.value = value
         self.retain = retain
         self.dataType = dataType
@@ -30,17 +33,10 @@ class Tag(SQL_tag):
         self.comment = comment
         self.OPC = OPC
         self.SQL = SQL
-        self._meta.table_name = self.name
-
-        self.create_table()
-
-    class Meta:
-        pass
-
-
-    # def __setattr__(self, key, value):
-    #     if key == "value" and value:
-    #         print(key, value)
+        self.SQLTable = None
+        if SQL:
+            self.SQLTable = type(self.name, (SQL_tag,), {})
+            self.SQLTable.create_table()
 
     def setValue(self, value):
         self.value = value

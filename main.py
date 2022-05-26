@@ -9,7 +9,6 @@ from PyQt6 import uic
 from UI import ui_vPLC
 from Hardware import Mirage
 from qt_material import apply_stylesheet
-from Lib.vPLC_lib import *
 from DB.DB import PLC_Tags
 from OB.OB1 import OB1
 
