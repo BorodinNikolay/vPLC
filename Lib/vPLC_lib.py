@@ -4,8 +4,13 @@ from PyQt6.QtCore import QThread, pyqtSignal
 
 
 class Tag:
-    def __init__(self, value=None, OPC=False, SQL=False):
+    def __init__(self, value=None, defaultValue=None, name="", comment="", retain=False, dataType=None, OPC=False, SQL=False):
         self.value = value
+        self.defaultValue = defaultValue
+        self.retain = retain
+        self.dataType = dataType
+        self.name = name
+        self.comment = comment
         self.OPC = OPC
         self.SQL = SQL
 
@@ -22,6 +27,7 @@ class Tag:
 
     def getClassVariableName(self):
         for i, j in globals().items():
+            print(i, j)
             if j is self:
                 return i
 
