@@ -14,9 +14,10 @@ SqliteDB = SqliteDatabase("DB/SQLite.db")
 class SQL_tag(Model):
     id = PrimaryKeyField(unique=True)
     time = DateTimeField(default=datetime.now)
-    valueInt = IntegerField(null=True)
-    valueReal = FloatField(null=True)
-    valueBool = BooleanField(null=True)
+
+    # valueInt = IntegerField(null=True)
+    # valueReal = FloatField(null=True)
+    # valueBool = BooleanField(null=True)
 
     class Meta:
         database = SqliteDB
@@ -33,17 +34,28 @@ class Tag:
         self.OPC = OPC
         self.SQL = SQL
         self.SQLTable = None
+
         if SQL:
-            self.SQLTable = type(self.name, (SQL_tag,), {})
-            self.SQLTable._meta.table_name = self.name
-            self.SQLTable.create_table()
+            self.createSQLTable()
+
+    def createSQLTable(self):
+        if isinstance(self.value, int):
+            self.SQLTable = type(self.name, (SQL_tag,), {"value": IntegerField(null=True)})
+        elif isinstance(self.value, bool):
+            self.SQLTable = type(self.name, (SQL_tag,), {"value": BooleanField(null=True)})
+        elif isinstance(self.value, float):
+            self.SQLTable = type(self.name, (SQL_tag,), {"value": FloatField(null=True)})
+        elif isinstance(self.value, str):
+            self.SQLTable = type(self.name, (SQL_tag,), {"value": TextField(null=True)})
+        else:
+            self.SQLTable = type(self.name, (SQL_tag,), {"value": BlobField(null=True)})
+        self.SQLTable._meta.table_name = self.name
+        self.SQLTable.create_table()
 
     def setValue(self, value):
         self.value = value
         if self.SQLTable:
-            if isinstance(value, int):
-                # print(value)
-                self.SQLTable(valueInt=value).save()
+            self.SQLTable(value=value).save()
 
     def getValue(self):
         return self.value
