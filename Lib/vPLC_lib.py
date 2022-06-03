@@ -72,6 +72,7 @@ class Tag:
         _value = _table.select(_table.value).order_by(_table.id.desc()).get()["value"]
         # print(self.name, _value)
         self.setValue(_value)
+        # return _value
 
     def createSQLTable(self):
         if isinstance(self.value, int):
