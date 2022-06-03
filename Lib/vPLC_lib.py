@@ -3,7 +3,11 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from datetime import datetime
 from peewee import *
 
-SqliteDB = SqliteDatabase("DB/SQLite.db")
+SqliteDB = SqliteDatabase("DB/SQLite.db", pragmas={
+    'journal_mode': 'wal',
+    'synchronous': 0,
+    'cache_size': -32000
+    })
 
 
 class SQL_tag(Model):
@@ -87,7 +91,7 @@ class Tag:
         if value != self.__valuePrevious:
             self.value = value
             if self.SQL:
-                self.SQLTableModel(value=value).update()
+                self.SQLTableModel(value = value).save()
             self.__valuePrevious = value
 
     def getValue(self):
