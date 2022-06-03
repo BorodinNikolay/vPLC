@@ -144,6 +144,8 @@ class Window(QMainWindow):
         self.syncCheckBox(PLC_Tags["DO22"], self.ui.cb22)
         self.syncCheckBox(PLC_Tags["DO23"], self.ui.cb23)
 
+        self.ui.horizontalSlider.setValue(int((PLC_Tags["AO0_AI0_ITP"].getValue()-4000)/160))
+
 
 
     def syncLamp(self, Tag, lamp):
