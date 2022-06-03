@@ -149,6 +149,25 @@ class Window(QMainWindow):
         else:
             self.ui._24DI7.setStyleSheet("background-color: red")
 
+        if PLC_Tags["DO0_NAODI_6_7"].getValue():
+            self.ui.cb0.setChecked(True)
+        else:
+            self.ui.cb0.setChecked(False)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def checkBox(self, state, db):
         db.setValue(state)
 

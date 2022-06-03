@@ -3,11 +3,6 @@ from PyQt6.QtCore import QThread, pyqtSignal
 from datetime import datetime
 from peewee import *
 
-# if __name__ == '__main__':
-#     SqliteDB = SqliteDatabase("SQLite.db")
-# else:
-#     SqliteDB = SqliteDatabase("DB/SQLite.db")
-
 SqliteDB = SqliteDatabase("DB/SQLite.db")
 
 
@@ -15,47 +10,85 @@ class SQL_tag(Model):
     id = PrimaryKeyField(unique=True)
     time = DateTimeField(default=datetime.now)
 
-    # valueInt = IntegerField(null=True)
-    # valueReal = FloatField(null=True)
-    # valueBool = BooleanField(null=True)
-
     class Meta:
         database = SqliteDB
-        order_by = "-id"
+        # order_by = "-id"
+
+
+class SQL_tagINT(SQL_tag):
+    value = IntegerField(null=True)
+
+class SQL_tagFLOAT(SQL_tag):
+    value = FloatField(null=True)
+
+class SQL_tagBOOL(SQL_tag):
+    value = BooleanField(null=True)
+
+class SQL_tagSTR(SQL_tag):
+    value = TextField(null=True)
+
+class SQL_tagANY(SQL_tag):
+    value = AnyField(null=True)
+
+
+
+
 
 
 class Tag:
     def __init__(self, value=None, name="", comment="", retain=False, dataType=None, OPC=False, SQL=False):
         self.value = value
+        self.__valuePrevious = None
         self.retain = retain
         self.dataType = dataType
         self.name = name
         self.comment = comment
         self.OPC = OPC
         self.SQL = SQL
-        self.SQLTable = None
-
-        if SQL:
+        self.SQLTableModel = None
+        # Включить логирование в SQL если включена настройка retain
+        if self.retain and not self.SQL:
+            self.SQL = True
+        # Создание таблицы с рдноименным названием тэга в SQL
+        if self.SQL:
             self.createSQLTable()
+        # Считываение с SQL и присвоение переменной. Реализация retain
+        if self.retain:
+            try:
+                self.retainRead()
+            except:
+                self.setValue(value)
+        else:
+            self.setValue(value)
+
+
+
+    def retainRead(self):
+        _table = self.SQLTableModel._meta.table
+        _value = _table.select(_table.value).order_by(_table.id.desc()).get()["value"]
+        # print(self.name, _value)
+        self.setValue(_value)
 
     def createSQLTable(self):
         if isinstance(self.value, int):
-            self.SQLTable = type(self.name, (SQL_tag,), {"value": IntegerField(null=True)})
+            self.SQLTableModel = type(self.name, (SQL_tagINT,), {})
         elif isinstance(self.value, bool):
-            self.SQLTable = type(self.name, (SQL_tag,), {"value": BooleanField(null=True)})
+            self.SQLTableModel = type(self.name, (SQL_tagBOOL,), {})
         elif isinstance(self.value, float):
-            self.SQLTable = type(self.name, (SQL_tag,), {"value": FloatField(null=True)})
+            self.SQLTableModel = type(self.name, (SQL_tagFLOAT,), {})
         elif isinstance(self.value, str):
-            self.SQLTable = type(self.name, (SQL_tag,), {"value": TextField(null=True)})
+            self.SQLTableModel = type(self.name, (SQL_tagSTR,), {})
         else:
-            self.SQLTable = type(self.name, (SQL_tag,), {"value": BlobField(null=True)})
-        self.SQLTable._meta.table_name = self.name
-        self.SQLTable.create_table()
+            self.SQLTableModel = type(self.name, (SQL_tagANY,), {})
+        self.SQLTableModel._meta.table_name = self.name
+        self.SQLTableModel.create_table(safe=True)
 
     def setValue(self, value):
-        self.value = value
-        if self.SQLTable:
-            self.SQLTable(value=value).save()
+        if value != self.__valuePrevious:
+            self.value = value
+            if self.SQL:
+                self.SQLTableModel(value=value).update()
+            self.__valuePrevious = value
 
     def getValue(self):
         return self.value
