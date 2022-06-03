@@ -144,6 +144,8 @@ class Window(QMainWindow):
         self.syncCheckBox(PLC_Tags["DO22"], self.ui.cb22)
         self.syncCheckBox(PLC_Tags["DO23"], self.ui.cb23)
 
+
+
     def syncLamp(self, Tag, lamp):
         if Tag.getValue():
             lamp.setStyleSheet("background-color: Lime")

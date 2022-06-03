@@ -131,6 +131,7 @@ class MirageNDO(MirageBasic):
         self._Ch = [Ch0, Ch1, Ch2, Ch3, Ch4, Ch5, Ch6, Ch7, Ch8, Ch9, Ch10, Ch11, Ch12, Ch13, Ch14, Ch15, Ch16, Ch17,
                     Ch18, Ch19, Ch20, Ch21, Ch22, Ch23]
         self._ChPrevious = []
+        self.syncTags()
         self.signal.emit()
 
     def getAll(self):
@@ -169,6 +170,8 @@ class MirageNDO(MirageBasic):
         for i, v in enumerate(self._Ch):
             if v and isinstance(v.value, bool):
                 _new[i] = v.value
+            if v and isinstance(v.value, int):
+                _new[i] = False if v.value == 0 else True
         # Создается список изменений
         if _new != self._ChPrevious:
             if not self._ChPrevious:

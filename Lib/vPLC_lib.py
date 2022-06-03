@@ -89,11 +89,16 @@ class Tag:
         self.SQLTableModel.create_table(safe=True)
 
     def setValue(self, value):
-        if value != self.__valuePrevious:
-            self.value = value
+        if isinstance(self.value, bool):
+            __value = True if value == 1 else False
+        else:
+            __value = value
+
+        if __value != self.__valuePrevious:
+            self.value = __value
             if self.SQL:
-                self.SQLTableModel(value = value).save()
-            self.__valuePrevious = value
+                self.SQLTableModel(value = __value).save()
+            self.__valuePrevious = __value
 
     def getValue(self):
         return self.value
